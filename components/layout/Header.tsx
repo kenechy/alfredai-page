@@ -53,25 +53,25 @@ export function Header() {
         <div className="hidden lg:flex lg:gap-x-8">
           <button
             onClick={() => scrollToSection("hero")}
-            className="text-sm font-semibold leading-6 text-slate-900 hover:text-blue-600 transition-colors"
+            className="text-sm font-semibold leading-6 text-slate-900 hover:text-primary transition-colors"
           >
             Home
           </button>
           <button
             onClick={() => scrollToSection("features")}
-            className="text-sm font-semibold leading-6 text-slate-900 hover:text-blue-600 transition-colors"
+            className="text-sm font-semibold leading-6 text-slate-900 hover:text-primary transition-colors"
           >
             Features
           </button>
           <button
             onClick={() => scrollToSection("testimonials")}
-            className="text-sm font-semibold leading-6 text-slate-900 hover:text-blue-600 transition-colors"
+            className="text-sm font-semibold leading-6 text-slate-900 hover:text-primary transition-colors"
           >
             Testimonials
           </button>
           <button
             onClick={() => scrollToSection("contact")}
-            className="text-sm font-semibold leading-6 text-slate-900 hover:text-blue-600 transition-colors"
+            className="text-sm font-semibold leading-6 text-slate-900 hover:text-primary transition-colors"
           >
             Contact
           </button>

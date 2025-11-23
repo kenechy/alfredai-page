@@ -106,7 +106,7 @@ export function ContactForm() {
     <section id="contact" className="bg-slate-50 px-6 py-20 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-blue-600">
+          <h2 className="text-base font-semibold leading-7 text-primary">
             Get Started
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">

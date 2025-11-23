@@ -30,7 +30,7 @@ export function Features() {
     <section id="features" className="bg-slate-50 px-6 py-20 lg:px-8 lg:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-blue-600">
+          <h2 className="text-base font-semibold leading-7 text-primary">
             Everything you need
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
@@ -52,7 +52,7 @@ export function Features() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Card hover className="h-full">
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-600">
+                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
                   <feature.icon
                     className="h-6 w-6 text-white"
                     aria-hidden="true"

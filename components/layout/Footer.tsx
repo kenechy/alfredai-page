@@ -19,13 +19,13 @@ export function Footer() {
           <div className="flex gap-8">
             <a
               href="#privacy"
-              className="text-sm text-slate-600 hover:text-blue-600 transition-colors"
+              className="text-sm text-slate-600 hover:text-primary transition-colors"
             >
               Privacy Policy
             </a>
             <a
               href="#terms"
-              className="text-sm text-slate-600 hover:text-blue-600 transition-colors"
+              className="text-sm text-slate-600 hover:text-primary transition-colors"
             >
               Terms of Service
             </a>
@@ -37,7 +37,7 @@ export function Footer() {
               href="https://linkedin.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-600 hover:text-blue-600 transition-colors"
+              className="text-slate-600 hover:text-primary transition-colors"
               aria-label="LinkedIn"
             >
               <Linkedin className="h-5 w-5" />
@@ -46,7 +46,7 @@ export function Footer() {
               href="https://twitter.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-600 hover:text-blue-600 transition-colors"
+              className="text-slate-600 hover:text-primary transition-colors"
               aria-label="Twitter"
             >
               <Twitter className="h-5 w-5" />
@@ -55,7 +55,7 @@ export function Footer() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-600 hover:text-blue-600 transition-colors"
+              className="text-slate-600 hover:text-primary transition-colors"
               aria-label="GitHub"
             >
               <Github className="h-5 w-5" />
