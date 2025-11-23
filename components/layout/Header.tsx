@@ -25,9 +25,10 @@ export function Header() {
             <Image
               src="/alfredai.png"
               alt="AlfredAI Logo"
-              width={32}
-              height={32}
+              width={179}
+              height={42}
               className="h-8 w-auto"
+              priority
             />
           </a>
         </div>
