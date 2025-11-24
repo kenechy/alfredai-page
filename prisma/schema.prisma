@@ -8,16 +8,36 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // Optional: Use direct connection for migrations
-  // directUrl = env("DIRECT_URL")
 }
 
-// Your database models will go here
-// Example:
-// model User {
-//   id        String   @id @default(cuid())
-//   email     String   @unique
-//   name      String?
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+// Leads table - stores contact form submissions
+model Lead {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  email     String
+  company   String?
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+  ip        String?
+  source    String?
+  status    String   @default("new")
+
+  // Tracking fields for analytics
+  utmSource   String? @map("utm_source")
+  utmMedium   String? @map("utm_medium")
+  utmCampaign String? @map("utm_campaign")
+  referrer    String?
+  userAgent   String? @map("user_agent")
+  deviceType  String? @map("device_type")
+  country     String?
+
+  @@index([email])
+  @@index([createdAt(sort: Desc)])
+  @@index([status])
+  @@index([company])
+  @@index([utmSource])
+  @@index([utmCampaign])
+  @@index([deviceType])
+  @@index([country])
+  @@map("leads")
+}

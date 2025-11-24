@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { prisma } from "@/lib/prisma";
 import { validateLeadSubmission } from "@/lib/validations";
 import { sendThankYouEmail, sendAdminNotification } from "@/lib/email";
 import { rateLimiter } from "@/lib/rate-limit";
@@ -56,7 +56,29 @@ export async function POST(request: NextRequest) {
     const validation = validateLeadSubmission(body);
 
     if (!validation.success) {
-      logger.warn("Validation failed", { errors: validation.errors });
+      // Log validation failures for security monitoring
+      logger.warn("Validation failed", {
+        errors: validation.errors,
+        ip: clientIp,
+        fields: Object.keys(body),
+      });
+
+      // Check if validation failed due to security reasons
+      const securityRelatedErrors = validation.errors
+        ? Object.values(validation.errors).flat().some((error) =>
+            error.includes("invalid characters") ||
+            error.includes("invalid patterns")
+          )
+        : false;
+
+      if (securityRelatedErrors) {
+        logger.logSecurity("Suspicious input detected in form submission", {
+          ip: clientIp,
+          email: body.email,
+          errors: validation.errors,
+        });
+      }
+
       return NextResponse.json(
         {
           success: false,
@@ -99,32 +121,29 @@ export async function POST(request: NextRequest) {
       device: trackingData.device_type,
     });
 
-    // Insert lead into database with tracking data
-    const supabase = getSupabaseAdmin();
-
-    const { data: lead, error: dbError } = await supabase
-      .from("leads")
-      .insert({
-        name,
-        email,
-        company: company || null,
-        message,
-        ip: clientIp,
-        source,
-        status: "new",
-        // Tracking fields
-        utm_source: trackingData.utm_source,
-        utm_medium: trackingData.utm_medium,
-        utm_campaign: trackingData.utm_campaign,
-        referrer: trackingData.referrer,
-        user_agent: trackingData.user_agent,
-        device_type: trackingData.device_type,
-        country: trackingData.country,
-      })
-      .select()
-      .single();
-
-    if (dbError) {
+    // Insert lead into database with tracking data using Prisma
+    let lead;
+    try {
+      lead = await prisma.lead.create({
+        data: {
+          name,
+          email,
+          company: company || null,
+          message,
+          ip: clientIp || null,
+          source,
+          status: "new",
+          // Tracking fields
+          utmSource: trackingData.utm_source || null,
+          utmMedium: trackingData.utm_medium || null,
+          utmCampaign: trackingData.utm_campaign || null,
+          referrer: trackingData.referrer || null,
+          userAgent: trackingData.user_agent || null,
+          deviceType: trackingData.device_type || null,
+          country: trackingData.country || null,
+        },
+      });
+    } catch (dbError) {
       logger.error("Database error", dbError, { email });
       return NextResponse.json(
         {
@@ -176,7 +195,7 @@ export async function POST(request: NextRequest) {
         message: "Thank you! We'll be in touch soon.",
         data: {
           id: lead.id,
-          created_at: lead.created_at,
+          created_at: lead.createdAt,
         },
       },
       {

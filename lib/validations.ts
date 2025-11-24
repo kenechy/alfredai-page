@@ -1,32 +1,54 @@
 import { z } from "zod";
+import {
+  isLikelyMaliciousInput,
+  sanitizeString,
+  sanitizeEmail,
+} from "./sanitize";
 
-// Validation schema for lead submission
-export const leadSubmissionSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Name is required")
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be less than 100 characters")
-    .trim(),
-  email: z
-    .string()
-    .min(1, "Email is required")
-    .email("Please enter a valid email address")
-    .max(255, "Email must be less than 255 characters")
-    .toLowerCase()
-    .trim(),
-  company: z
-    .string()
-    .max(100, "Company name must be less than 100 characters")
-    .trim()
-    .optional(),
-  message: z
-    .string()
-    .min(1, "Message is required")
-    .min(10, "Message must be at least 10 characters")
-    .max(2000, "Message must be less than 2000 characters")
-    .trim(),
-});
+// Validation schema for lead submission with security checks
+export const leadSubmissionSchema = z
+  .object({
+    name: z
+      .string()
+      .min(1, "Name is required")
+      .min(2, "Name must be at least 2 characters")
+      .max(100, "Name must be less than 100 characters")
+      .trim()
+      .refine(
+        (val) => !isLikelyMaliciousInput(val),
+        "Name contains invalid characters. Please use only letters and spaces."
+      )
+      .transform((val) => sanitizeString(val)),
+    email: z
+      .string()
+      .min(1, "Email is required")
+      .email("Please enter a valid email address")
+      .max(255, "Email must be less than 255 characters")
+      .toLowerCase()
+      .trim()
+      .transform((val) => sanitizeEmail(val)),
+    company: z
+      .string()
+      .max(100, "Company name must be less than 100 characters")
+      .trim()
+      .refine(
+        (val) => !val || !isLikelyMaliciousInput(val),
+        "Company name contains invalid characters. Please use only letters and spaces."
+      )
+      .transform((val) => (val ? sanitizeString(val) : val))
+      .optional(),
+    message: z
+      .string()
+      .min(1, "Message is required")
+      .min(10, "Message must be at least 10 characters")
+      .max(2000, "Message must be less than 2000 characters")
+      .trim()
+      .refine(
+        (val) => !isLikelyMaliciousInput(val),
+        "Message contains invalid characters or patterns. Please use plain text."
+      )
+      .transform((val) => sanitizeString(val)),
+  });
 
 export type LeadSubmission = z.infer<typeof leadSubmissionSchema>;
 

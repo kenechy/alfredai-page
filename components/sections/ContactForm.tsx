@@ -131,48 +131,61 @@ export function ContactForm() {
         >
           <Card>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <Input
-                label="Name"
-                name="name"
-                type="text"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                error={errors.name}
-                placeholder="John Doe (minimum 2 characters)"
-              />
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-900">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={handleChange}
+                  error={errors.name}
+                  placeholder="John Doe"
+                />
+              </div>
 
-              <Input
-                label="Email"
-                name="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                error={errors.email}
-                placeholder="john@example.com"
-              />
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-900">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <Input
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  error={errors.email}
+                  placeholder="john@example.com"
+                />
+              </div>
 
-              <Input
-                label="Company"
-                name="company"
-                type="text"
-                value={formData.company}
-                onChange={handleChange}
-                error={errors.company}
-                placeholder="Acme Corporation (optional)"
-              />
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-900">
+                  Company
+                </label>
+                <Input
+                  name="company"
+                  type="text"
+                  value={formData.company}
+                  onChange={handleChange}
+                  error={errors.company}
+                  placeholder="Acme Corporation (optional)"
+                />
+              </div>
 
-              <Textarea
-                label="Message"
-                name="message"
-                required
-                rows={5}
-                value={formData.message}
-                onChange={handleChange}
-                error={errors.message}
-                placeholder="Tell us about your proposal needs... (minimum 10 characters)"
-              />
+              <div>
+                <label className="mb-2 block text-sm font-medium text-slate-900">
+                  Message <span className="text-red-500">*</span>
+                </label>
+                <Textarea
+                  name="message"
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
+                  error={errors.message}
+                  placeholder="Tell us about your proposal needs..."
+                />
+              </div>
 
               {/* Honeypot field - hidden from humans, visible to bots */}
               <div className="absolute left-[-9999px]" aria-hidden="true">
@@ -186,27 +199,6 @@ export function ContactForm() {
                   onChange={handleChange}
                 />
               </div>
-
-              {/* Validation Error Summary */}
-              {Object.keys(errors).length > 0 && (
-                <div className="rounded-lg border border-red-200 bg-red-50 p-4">
-                  <div className="flex items-start gap-3">
-                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <h3 className="text-sm font-semibold text-red-800 mb-2">
-                        Please fix the following errors:
-                      </h3>
-                      <ul className="list-disc list-inside space-y-1 text-sm text-red-700">
-                        {Object.entries(errors).map(([field, error]) => (
-                          <li key={field}>
-                            <span className="font-medium capitalize">{field}:</span> {error}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               <Button
                 type="submit"
