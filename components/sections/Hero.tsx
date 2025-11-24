@@ -16,12 +16,12 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden bg-white px-6 pt-20 pb-16 lg:px-8 lg:pt-24 lg:pb-20"
+      className="relative isolate overflow-hidden bg-white min-h-screen flex items-center px-6 py-8 lg:px-8"
     >
       {/* Animated particle background */}
       <ParticleBackground />
 
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl w-full pt-8 lg:pt-20">
         {/* Two-column hero layout */}
         <div className="flex flex-col items-center text-center">
           {/* Main Hero Content */}
@@ -40,7 +40,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-6 text-lg leading-8 text-slate-600 sm:text-xl lg:text-2xl max-w-xl"
+            className="mt-3 lg:mt-6 text-base leading-6 lg:text-xl lg:leading-8 text-slate-600 max-w-2xl px-2"
           >
             Automate the creation of professional fee proposals. Save 80% of
             your time and increase win rates by 40%.
@@ -50,16 +50,16 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-10 flex items-center justify-center gap-4"
+            className="mt-5 lg:mt-8 flex items-center justify-center gap-4"
           >
             <Button
               variant="primary"
               size="lg"
               onClick={scrollToContact}
-              className="group"
+              className="group text-sm lg:text-lg"
             >
               Generate Proposal Now
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="ml-2 h-4 w-4 lg:h-5 lg:w-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </motion.div>
         </div>
@@ -68,9 +68,9 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="mx-auto mt-16 max-w-7xl"
+          className="mx-auto mt-6 lg:mt-12 max-w-7xl"
         >
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {[
               {
                 icon: Clock,
@@ -95,13 +95,13 @@ export function Hero() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="group relative flex flex-col items-center text-center rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/20"
+                className="group relative flex flex-col items-center text-center rounded-xl lg:rounded-2xl border border-slate-200 bg-white p-3 lg:p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/20"
               >
-                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
-                  <item.icon className="h-7 w-7 text-primary" />
+                <div className="mb-2 lg:mb-4 flex h-8 w-8 lg:h-14 lg:w-14 items-center justify-center rounded-lg lg:rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
+                  <item.icon className="h-4 w-4 lg:h-7 lg:w-7 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-900">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
+                <h3 className="text-xs lg:text-lg font-bold text-slate-900 leading-tight">{item.title}</h3>
+                <p className="mt-1 lg:mt-2 text-[10px] lg:text-sm leading-tight lg:leading-6 text-slate-600">
                   {item.desc}
                 </p>
               </div>

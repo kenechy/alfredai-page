@@ -25,6 +25,8 @@ type FormErrors = Partial<FormData>;
 
 type SubmitStatus = "idle" | "success" | "error";
 
+import { ParticleBackground } from "@/components/ui/ParticleBackground";
+
 export function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -134,7 +136,8 @@ export function ContactForm() {
   };
 
   return (
-    <section id="contact" className="bg-slate-50 px-6 py-12 lg:px-8 lg:py-16">
+    <section id="contact" className="relative isolate bg-slate-50 px-6 py-12 lg:px-8 lg:py-16">
+      <ParticleBackground />
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-base font-semibold leading-7 text-primary">

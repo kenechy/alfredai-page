@@ -11,7 +11,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-xl border border-slate-200 bg-white p-6 shadow-sm",
+          "rounded-xl border border-slate-200 bg-white p-4 lg:p-6 shadow-sm",
           hover && "transition-all hover:shadow-md hover:border-slate-300",
           className
         )}

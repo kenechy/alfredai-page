@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -90,46 +91,54 @@ export function Header() {
       </nav>
 
       {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden">
-          <div className="space-y-1 px-6 pb-6 pt-2">
-            <button
-              onClick={() => scrollToSection("hero")}
-              className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => scrollToSection("features")}
-              className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
-            >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection("testimonials")}
-              className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
-            >
-              Testimonials
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
-            >
-              Contact
-            </button>
-            <div className="pt-4">
-              <Button
-                variant="primary"
-                size="md"
-                className="w-full"
-                onClick={() => scrollToSection("contact")}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="lg:hidden overflow-hidden bg-white border-b border-slate-200"
+          >
+            <div className="space-y-1 px-6 pb-6 pt-2">
+              <button
+                onClick={() => scrollToSection("hero")}
+                className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
               >
-                Get Started
-              </Button>
+                Home
+              </button>
+              <button
+                onClick={() => scrollToSection("features")}
+                className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection("testimonials")}
+                className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
+              >
+                Testimonials
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="block w-full rounded-lg px-3 py-2 text-left text-base font-semibold leading-7 text-slate-900 hover:bg-slate-50"
+              >
+                Contact
+              </button>
+              <div className="pt-4">
+                <Button
+                  variant="primary"
+                  size="md"
+                  className="w-full"
+                  onClick={() => scrollToSection("contact")}
+                >
+                  Get Started
+                </Button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

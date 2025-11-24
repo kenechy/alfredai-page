@@ -26,14 +26,28 @@ export function ParticleBackground() {
 
     // Set canvas size
     const resizeCanvas = () => {
+      const prevWidth = canvas.width;
+      const prevHeight = canvas.height;
+      
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
+
+      // If this is a resize (prev dimensions exist and are > 0), scale particle positions
+      if (prevWidth > 0 && prevHeight > 0 && particlesRef.current.length > 0) {
+        const scaleX = canvas.width / prevWidth;
+        const scaleY = canvas.height / prevHeight;
+
+        particlesRef.current.forEach((p) => {
+          p.x *= scaleX;
+          p.y *= scaleY;
+        });
+      }
     };
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Initialize particles
-    const particleCount = 80;
+    // Initialize particles with responsive count
+    const particleCount = window.innerWidth < 768 ? 30 : 80;
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
