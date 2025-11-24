@@ -101,7 +101,7 @@ export function Hero() {
                   <item.icon className="h-4 w-4 lg:h-7 lg:w-7 text-primary" />
                 </div>
                 <h3 className="text-xs lg:text-lg font-bold text-slate-900 leading-tight">{item.title}</h3>
-                <p className="mt-1 lg:mt-2 text-[10px] lg:text-sm leading-tight lg:leading-6 text-slate-600">
+                <p className="mt-1 lg:mt-2 text-[10px] lg:text-base leading-tight lg:leading-7 text-slate-600">
                   {item.desc}
                 </p>
               </div>

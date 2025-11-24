@@ -20,7 +20,7 @@ const testimonials = [
     role: "VP of Business Development",
     company: "Global Consulting Group",
     initials: "MR",
-    color: "bg-slate-600",
+    color: "bg-primary/95",
   },
   {
     content:
@@ -62,8 +62,8 @@ export function Testimonials() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full">
-                <blockquote className="text-base leading-7 text-slate-700">
+              <Card className="h-full flex flex-col">
+                <blockquote className="text-base leading-7 text-slate-700 flex-grow">
                   &ldquo;{testimonial.content}&rdquo;
                 </blockquote>
                 <div className="mt-6 flex items-center gap-4">
