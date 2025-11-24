@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -15,6 +15,10 @@ type FormData = {
   company: string;
   message: string;
   website: string; // Honeypot field - should remain empty
+  // UTM parameters captured from URL
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
 };
 
 type FormErrors = Partial<FormData>;
@@ -34,6 +38,25 @@ export function ContactForm() {
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Capture UTM parameters from URL on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const utmSource = params.get("utm_source");
+      const utmMedium = params.get("utm_medium");
+      const utmCampaign = params.get("utm_campaign");
+
+      if (utmSource || utmMedium || utmCampaign) {
+        setFormData((prev) => ({
+          ...prev,
+          utm_source: utmSource || undefined,
+          utm_medium: utmMedium || undefined,
+          utm_campaign: utmCampaign || undefined,
+        }));
+      }
+    }
+  }, []);
+
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
 
@@ -47,6 +70,10 @@ export function ContactForm() {
       newErrors.email = "Email is required";
     } else if (!isValidEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.company.trim()) {
+      newErrors.company = "Company is required";
     }
 
     if (!formData.message.trim()) {
@@ -161,7 +188,7 @@ export function ContactForm() {
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-slate-900">
-                  Company
+                  Company <span className="text-red-500">*</span>
                 </label>
                 <Input
                   name="company"
@@ -169,7 +196,7 @@ export function ContactForm() {
                   value={formData.company}
                   onChange={handleChange}
                   error={errors.company}
-                  placeholder="Acme Corporation (optional)"
+                  placeholder="Acme Corporation"
                 />
               </div>
 

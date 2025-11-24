@@ -15,7 +15,7 @@ model Lead {
   id        String   @id @default(uuid()) @db.Uuid
   name      String
   email     String
-  company   String?
+  company   String
   message   String
   createdAt DateTime @default(now()) @map("created_at")
   ip        String?

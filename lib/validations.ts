@@ -29,14 +29,14 @@ export const leadSubmissionSchema = z
       .transform((val) => sanitizeEmail(val)),
     company: z
       .string()
+      .min(1, "Company is required")
       .max(100, "Company name must be less than 100 characters")
       .trim()
       .refine(
-        (val) => !val || !isLikelyMaliciousInput(val),
+        (val) => !isLikelyMaliciousInput(val),
         "Company name contains invalid characters. Please use only letters and spaces."
       )
-      .transform((val) => (val ? sanitizeString(val) : val))
-      .optional(),
+      .transform((val) => sanitizeString(val)),
     message: z
       .string()
       .min(1, "Message is required")

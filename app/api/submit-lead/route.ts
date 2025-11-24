@@ -91,6 +91,14 @@ export async function POST(request: NextRequest) {
 
     const { name, email, company, message } = validation.data;
 
+    // Extract UTM parameters from request body (sent by frontend)
+    // These take priority over URL-based extraction
+    const utmFromBody = {
+      utm_source: body.utm_source || null,
+      utm_medium: body.utm_medium || null,
+      utm_campaign: body.utm_campaign || null,
+    };
+
     // Check honeypot field (anti-bot protection)
     if (body.website && body.website.trim() !== "") {
       logger.logSecurity("Honeypot triggered - potential bot submission", {
@@ -112,11 +120,25 @@ export async function POST(request: NextRequest) {
 
     // Extract tracking data
     const trackingData = await extractTrackingData(request);
-    const source = buildSourceString(trackingData);
+
+    // Merge UTM from body (priority) with extracted tracking data (fallback)
+    const finalUtmData = {
+      utm_source: utmFromBody.utm_source || trackingData.utm_source || null,
+      utm_medium: utmFromBody.utm_medium || trackingData.utm_medium || null,
+      utm_campaign: utmFromBody.utm_campaign || trackingData.utm_campaign || null,
+    };
+
+    const source = buildSourceString({
+      utm_source: finalUtmData.utm_source,
+      referrer: trackingData.referrer
+    });
 
     logger.info("Processing lead submission", {
       email,
       source,
+      utm_source: finalUtmData.utm_source,
+      utm_medium: finalUtmData.utm_medium,
+      utm_campaign: finalUtmData.utm_campaign,
       country: trackingData.country,
       device: trackingData.device_type,
     });
@@ -128,15 +150,15 @@ export async function POST(request: NextRequest) {
         data: {
           name,
           email,
-          company: company || null,
+          company,
           message,
           ip: clientIp || null,
           source,
           status: "new",
-          // Tracking fields
-          utmSource: trackingData.utm_source || null,
-          utmMedium: trackingData.utm_medium || null,
-          utmCampaign: trackingData.utm_campaign || null,
+          // Tracking fields - use UTM from body first, then fallback to extracted
+          utmSource: finalUtmData.utm_source,
+          utmMedium: finalUtmData.utm_medium,
+          utmCampaign: finalUtmData.utm_campaign,
           referrer: trackingData.referrer || null,
           userAgent: trackingData.user_agent || null,
           deviceType: trackingData.device_type || null,

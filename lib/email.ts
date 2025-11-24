@@ -34,7 +34,7 @@ function getTransporter(): Transporter {
 export type SendThankYouEmailParams = {
   name: string;
   email: string;
-  company?: string;
+  company: string;
 };
 
 export async function sendThankYouEmail({
@@ -45,7 +45,7 @@ export async function sendThankYouEmail({
   const fromEmail = process.env.FROM_EMAIL || "noreply@alfredai.bot";
 
   const firstName = name.split(" ")[0];
-  const companyMention = company ? ` at ${company}` : "";
+  const companyMention = ` at ${company}`;
 
   try {
     const transporter = getTransporter();
@@ -236,7 +236,7 @@ export async function sendAdminNotification({
     const info = await transporter.sendMail({
       from: `AlfredAI Leads <${fromEmail}>`,
       to: adminEmail,
-      subject: `New Lead: ${name}${company ? ` from ${company}` : ""}`,
+      subject: `New Lead: ${name} from ${company}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -319,12 +319,10 @@ export async function sendAdminNotification({
                 <p><a href="mailto:${email}">${email}</a></p>
               </div>
 
-              ${company ? `
               <div class="field">
                 <strong>Company:</strong>
                 <p>${company}</p>
               </div>
-              ` : ""}
 
               <div class="field">
                 <strong>Message:</strong>
@@ -344,7 +342,7 @@ export async function sendAdminNotification({
 
 Name: ${name}
 Email: ${email}
-${company ? `Company: ${company}\n` : ""}
+Company: ${company}
 Message:
 ${message}
 
