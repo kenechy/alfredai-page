@@ -49,6 +49,7 @@ export async function sendThankYouEmail({
 
   try {
     const transporter = getTransporter();
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
     const info = await transporter.sendMail({
       from: `AlfredAI Team <${fromEmail}>`,
@@ -78,15 +79,16 @@ export async function sendThankYouEmail({
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
               }
               .header {
-                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                background-color: #ffffff;
                 padding: 40px 30px;
                 text-align: center;
+                border-bottom: 3px solid #d1345f;
               }
-              .header h1 {
-                color: #ffffff;
-                margin: 0;
-                font-size: 28px;
-                font-weight: 700;
+              .header img {
+                max-width: 180px;
+                height: auto;
+                display: block;
+                margin: 0 auto;
               }
               .content {
                 padding: 40px 30px;
@@ -101,8 +103,8 @@ export async function sendThankYouEmail({
                 color: #1e293b;
               }
               .features {
-                background-color: #f1f5f9;
-                border-left: 4px solid #3b82f6;
+                background-color: #fef2f2;
+                border-left: 4px solid #d1345f;
                 padding: 20px 24px;
                 margin: 24px 0;
                 border-radius: 4px;
@@ -133,7 +135,7 @@ export async function sendThankYouEmail({
                 color: #64748b;
               }
               .footer a {
-                color: #3b82f6;
+                color: #d1345f;
                 text-decoration: none;
               }
             </style>
@@ -141,7 +143,8 @@ export async function sendThankYouEmail({
           <body>
             <div class="container">
               <div class="header">
-                <h1>AlfredAI</h1>
+                <img src="${appUrl}/alfredai.png" alt="AlfredAI Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                <h1 style="display:none;color:#d1345f;margin:0;font-size:28px;font-weight:700;">AlfredAI</h1>
               </div>
               <div class="content">
                 <p class="greeting">Hi ${firstName},</p>
@@ -228,6 +231,7 @@ export async function sendAdminNotification({
 
   try {
     const transporter = getTransporter();
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
     const info = await transporter.sendMail({
       from: `AlfredAI Leads <${fromEmail}>`,
@@ -252,8 +256,23 @@ export async function sendAdminNotification({
                 margin: 0 auto;
                 background-color: #ffffff;
                 border-radius: 8px;
-                padding: 30px;
+                overflow: hidden;
                 box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+              }
+              .header {
+                background-color: #ffffff;
+                padding: 30px;
+                text-align: center;
+                border-bottom: 3px solid #d1345f;
+              }
+              .header img {
+                max-width: 150px;
+                height: auto;
+                display: block;
+                margin: 0 auto;
+              }
+              .content {
+                padding: 30px;
               }
               h2 {
                 color: #1e293b;
@@ -273,17 +292,22 @@ export async function sendAdminNotification({
                 color: #1e293b;
               }
               .message {
-                background-color: #f1f5f9;
+                background-color: #fef2f2;
                 padding: 16px;
                 border-radius: 4px;
-                border-left: 4px solid #3b82f6;
+                border-left: 4px solid #d1345f;
                 margin-top: 8px;
               }
             </style>
           </head>
           <body>
             <div class="container">
-              <h2>New Lead Submission</h2>
+              <div class="header">
+                <img src="${appUrl}/alfredai.png" alt="AlfredAI Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                <h1 style="display:none;color:#d1345f;margin:0;font-size:24px;font-weight:700;">AlfredAI</h1>
+              </div>
+              <div class="content">
+                <h2>New Lead Submission</h2>
 
               <div class="field">
                 <strong>Name:</strong>
@@ -310,6 +334,7 @@ export async function sendAdminNotification({
               <div class="field">
                 <strong>Submitted:</strong>
                 <p>${new Date().toLocaleString()}</p>
+              </div>
               </div>
             </div>
           </body>
