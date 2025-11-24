@@ -9,7 +9,10 @@ interface EnvConfig {
   NEXT_PUBLIC_SUPABASE_URL: string;
   NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
   SUPABASE_SERVICE_ROLE_KEY: string;
-  RESEND_API_KEY: string;
+  SMTP_HOST: string;
+  SMTP_PORT: string;
+  SMTP_USER: string;
+  SMTP_PASSWORD: string;
   ADMIN_EMAIL: string;
 }
 
@@ -31,7 +34,10 @@ const REQUIRED_ENV_VARS: Record<EnvVarName, string> = {
     "Supabase anonymous key (found in Supabase Dashboard → Settings → API)",
   SUPABASE_SERVICE_ROLE_KEY:
     "Supabase service role key (found in Supabase Dashboard → Settings → API - keep secret!)",
-  RESEND_API_KEY: "Resend API key (found in Resend Dashboard → API Keys)",
+  SMTP_HOST: "SMTP server hostname (e.g., smtp.gmail.com, smtp-relay.brevo.com)",
+  SMTP_PORT: "SMTP server port (e.g., 587 for TLS, 465 for SSL)",
+  SMTP_USER: "SMTP username (your email address)",
+  SMTP_PASSWORD: "SMTP password or app-specific password",
   ADMIN_EMAIL: "Email address to receive lead notifications",
 };
 
@@ -97,7 +103,10 @@ export function getEnv(): EnvConfig {
     NEXT_PUBLIC_SUPABASE_URL: getEnvVar("NEXT_PUBLIC_SUPABASE_URL"),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: getEnvVar("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
     SUPABASE_SERVICE_ROLE_KEY: getEnvVar("SUPABASE_SERVICE_ROLE_KEY"),
-    RESEND_API_KEY: getEnvVar("RESEND_API_KEY"),
+    SMTP_HOST: getEnvVar("SMTP_HOST"),
+    SMTP_PORT: getEnvVar("SMTP_PORT"),
+    SMTP_USER: getEnvVar("SMTP_USER"),
+    SMTP_PASSWORD: getEnvVar("SMTP_PASSWORD"),
     ADMIN_EMAIL: getEnvVar("ADMIN_EMAIL"),
   };
 }

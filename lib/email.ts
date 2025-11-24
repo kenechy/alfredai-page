@@ -1,14 +1,35 @@
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+import type { Transporter } from "nodemailer";
 
-const resendApiKey = process.env.RESEND_API_KEY;
+// Validate required environment variables
+const smtpHost = process.env.SMTP_HOST;
+const smtpPort = process.env.SMTP_PORT;
+const smtpUser = process.env.SMTP_USER;
+const smtpPassword = process.env.SMTP_PASSWORD;
 
-if (!resendApiKey) {
+if (!smtpHost || !smtpPort || !smtpUser || !smtpPassword) {
   throw new Error(
-    "Missing RESEND_API_KEY environment variable. Please check your .env.local file."
+    "Missing SMTP configuration. Please check your .env.local file for SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASSWORD."
   );
 }
 
-const resend = new Resend(resendApiKey);
+// Create reusable transporter
+let transporter: Transporter | null = null;
+
+function getTransporter(): Transporter {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: parseInt(smtpPort, 10),
+      secure: parseInt(smtpPort, 10) === 465, // true for 465, false for other ports
+      auth: {
+        user: smtpUser,
+        pass: smtpPassword,
+      },
+    });
+  }
+  return transporter;
+}
 
 export type SendThankYouEmailParams = {
   name: string;
@@ -27,9 +48,11 @@ export async function sendThankYouEmail({
   const companyMention = company ? ` at ${company}` : "";
 
   try {
-    const { data, error } = await resend.emails.send({
+    const transporter = getTransporter();
+
+    const info = await transporter.sendMail({
       from: `AlfredAI Team <${fromEmail}>`,
-      to: [email],
+      to: email,
       subject: "Thank you for your interest in AI Fee Proposal Generator",
       html: `
         <!DOCTYPE html>
@@ -177,13 +200,8 @@ This email was sent because you submitted a contact form on alfredai.bot
 © ${new Date().getFullYear()} AlfredAI. All rights reserved.`,
     });
 
-    if (error) {
-      console.error("Error sending email:", error);
-      return { success: false, error: error.message };
-    }
-
-    console.log("Email sent successfully:", data);
-    return { success: true, data };
+    console.log("Email sent successfully:", info.messageId);
+    return { success: true, data: info };
   } catch (error) {
     console.error("Failed to send email:", error);
     return {
@@ -209,9 +227,11 @@ export async function sendAdminNotification({
   }
 
   try {
-    const { data, error } = await resend.emails.send({
+    const transporter = getTransporter();
+
+    const info = await transporter.sendMail({
       from: `AlfredAI Leads <${fromEmail}>`,
-      to: [adminEmail],
+      to: adminEmail,
       subject: `New Lead: ${name}${company ? ` from ${company}` : ""}`,
       html: `
         <!DOCTYPE html>
@@ -306,12 +326,8 @@ ${message}
 Submitted: ${new Date().toLocaleString()}`,
     });
 
-    if (error) {
-      console.error("Error sending admin notification:", error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true, data };
+    console.log("Admin notification sent successfully:", info.messageId);
+    return { success: true, data: info };
   } catch (error) {
     console.error("Failed to send admin notification:", error);
     return {

@@ -39,6 +39,8 @@ export function ContactForm() {
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
     }
 
     if (!formData.email.trim()) {
@@ -49,6 +51,8 @@ export function ContactForm() {
 
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
     }
 
     setErrors(newErrors);
@@ -135,7 +139,7 @@ export function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 error={errors.name}
-                placeholder="John Doe"
+                placeholder="John Doe (minimum 2 characters)"
               />
 
               <Input
@@ -167,7 +171,7 @@ export function ContactForm() {
                 value={formData.message}
                 onChange={handleChange}
                 error={errors.message}
-                placeholder="Tell us about your proposal needs..."
+                placeholder="Tell us about your proposal needs... (minimum 10 characters)"
               />
 
               {/* Honeypot field - hidden from humans, visible to bots */}
@@ -182,6 +186,27 @@ export function ContactForm() {
                   onChange={handleChange}
                 />
               </div>
+
+              {/* Validation Error Summary */}
+              {Object.keys(errors).length > 0 && (
+                <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <h3 className="text-sm font-semibold text-red-800 mb-2">
+                        Please fix the following errors:
+                      </h3>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-red-700">
+                        {Object.entries(errors).map(([field, error]) => (
+                          <li key={field}>
+                            <span className="font-medium capitalize">{field}:</span> {error}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <Button
                 type="submit"
