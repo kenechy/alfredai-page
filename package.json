@@ -15,7 +15,8 @@
     "prisma:push": "prisma db push",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "view-leads": "tsx scripts/view-leads.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.0",
@@ -44,6 +45,7 @@
     "prettier-plugin-tailwindcss": "^0.7.1",
     "prisma": "^6.19.0",
     "tailwindcss": "^4",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }
