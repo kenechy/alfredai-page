@@ -20,8 +20,8 @@ function getTransporter(): Transporter {
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: smtpHost,
-      port: parseInt(smtpPort, 10),
-      secure: parseInt(smtpPort, 10) === 465, // true for 465, false for other ports
+      port: parseInt(smtpPort || "587", 10),
+      secure: parseInt(smtpPort || "587", 10) === 465, // true for 465, false for other ports
       auth: {
         user: smtpUser,
         pass: smtpPassword,

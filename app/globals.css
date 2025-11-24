@@ -49,10 +49,7 @@ h1, h2, h3, h4, h5, h6, strong {
   will-change: transform;
 }
 
-/* Pause on container hover */
-.group:hover .animate-marquee {
-  animation-play-state: paused;
-}
+
 
 /* Respect user motion preferences */
 @media (prefers-reduced-motion: reduce) {
