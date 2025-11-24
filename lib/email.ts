@@ -51,6 +51,12 @@ export async function sendThankYouEmail({
     const transporter = getTransporter();
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
+    // Use GitHub raw content for reliable logo rendering in emails (especially for localhost/previews)
+    const logoUrl =
+      appUrl.includes("localhost") || appUrl.includes("127.0.0.1")
+        ? "https://raw.githubusercontent.com/kenechy/alfredai-page/main/public/alfredai.png"
+        : `${appUrl}/alfredai.png`;
+
     const info = await transporter.sendMail({
       from: `AlfredAI Team <${fromEmail}>`,
       to: email,
@@ -143,7 +149,7 @@ export async function sendThankYouEmail({
           <body>
             <div class="container">
               <div class="header">
-                <img src="${appUrl}/alfredai.png" alt="AlfredAI Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                <img src="${logoUrl}" alt="AlfredAI Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                 <h1 style="display:none;color:#d1345f;margin:0;font-size:28px;font-weight:700;">AlfredAI</h1>
               </div>
               <div class="content">
@@ -233,6 +239,12 @@ export async function sendAdminNotification({
     const transporter = getTransporter();
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
+    // Use GitHub raw content for reliable logo rendering in emails (especially for localhost/previews)
+    const logoUrl =
+      appUrl.includes("localhost") || appUrl.includes("127.0.0.1")
+        ? "https://raw.githubusercontent.com/kenechy/alfredai-page/main/public/alfredai.png"
+        : `${appUrl}/alfredai.png`;
+
     const info = await transporter.sendMail({
       from: `AlfredAI Leads <${fromEmail}>`,
       to: adminEmail,
@@ -303,7 +315,7 @@ export async function sendAdminNotification({
           <body>
             <div class="container">
               <div class="header">
-                <img src="${appUrl}/alfredai.png" alt="AlfredAI Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+                <img src="${logoUrl}" alt="AlfredAI Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
                 <h1 style="display:none;color:#d1345f;margin:0;font-size:24px;font-weight:700;">AlfredAI</h1>
               </div>
               <div class="content">
