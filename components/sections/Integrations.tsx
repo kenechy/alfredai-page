@@ -63,6 +63,7 @@ export function Integrations() {
                 );
                 return (
                   <div
+                    key={`second-${index}`}
                     className="flex min-w-[100px] flex-shrink-0 items-center justify-center px-8 sm:min-w-[160px] sm:px-16"
                   >
                     <div className="relative h-12 w-12 sm:h-20 sm:w-20">
