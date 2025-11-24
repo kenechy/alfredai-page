@@ -47,19 +47,21 @@ export function ParticleBackground() {
     window.addEventListener("resize", resizeCanvas);
 
     // Initialize particles with responsive count
-    const particleCount = window.innerWidth < 768 ? 30 : 80;
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 8 : 80;
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 1.2,
       vy: (Math.random() - 0.5) * 1.2,
-      size: Math.random() * 6 + 3,
-      opacity: Math.random() * 0.5 + 0.3,
+      size: isMobile ? Math.random() * 2 + 1 : Math.random() * 6 + 3,
+      opacity: isMobile ? Math.random() * 0.1 + 0.05 : Math.random() * 0.5 + 0.3,
       type: ["circle", "square", "line"][Math.floor(Math.random() * 3)] as "circle" | "square" | "line",
     }));
 
     // Primary color (converted to RGB for easier manipulation)
     const primaryColor = { r: 214, g: 74, b: 111 }; // #D64A6F
+    const showConnections = !isMobile; // Disable connections on mobile
 
     // Animation loop
     const animate = () => {
@@ -94,22 +96,24 @@ export function ParticleBackground() {
           ctx.stroke();
         }
 
-        // Draw connections between nearby particles
-        particlesRef.current.slice(index + 1).forEach((otherParticle) => {
-          const dx = particle.x - otherParticle.x;
-          const dy = particle.y - otherParticle.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        // Draw connections between nearby particles (only on desktop)
+        if (showConnections) {
+          particlesRef.current.slice(index + 1).forEach((otherParticle) => {
+            const dx = particle.x - otherParticle.x;
+            const dy = particle.y - otherParticle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 180) {
-            const opacity = (1 - distance / 180) * 0.35;
-            ctx.strokeStyle = `rgba(${primaryColor.r}, ${primaryColor.g}, ${primaryColor.b}, ${opacity})`;
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.stroke();
-          }
-        });
+            if (distance < 180) {
+              const opacity = (1 - distance / 180) * 0.35;
+              ctx.strokeStyle = `rgba(${primaryColor.r}, ${primaryColor.g}, ${primaryColor.b}, ${opacity})`;
+              ctx.lineWidth = 1.5;
+              ctx.beginPath();
+              ctx.moveTo(particle.x, particle.y);
+              ctx.lineTo(otherParticle.x, otherParticle.y);
+              ctx.stroke();
+            }
+          });
+        }
       });
 
       animationFrameRef.current = requestAnimationFrame(animate);

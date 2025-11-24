@@ -21,6 +21,9 @@ export function Hero() {
       {/* Animated particle background */}
       <ParticleBackground />
 
+      {/* Mobile-only readability overlay */}
+      <div className="absolute inset-0 -z-[5] bg-white/40 lg:hidden pointer-events-none backdrop-blur-[1px]" />
+
       <div className="mx-auto max-w-7xl w-full pt-8 lg:pt-20">
         {/* Two-column hero layout */}
         <div className="flex flex-col items-center text-center">
