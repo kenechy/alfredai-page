@@ -33,3 +33,30 @@ body {
 h1, h2, h3, h4, h5, h6, strong {
   font-family: var(--font-poppins), sans-serif; /* Changed from var(--font-montserrat) */
 }
+
+/* Marquee Animation - optimized */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on container hover */
+.group:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation-duration: 60s;
+  }
+}
