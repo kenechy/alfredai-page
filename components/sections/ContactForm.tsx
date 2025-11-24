@@ -136,7 +136,7 @@ export function ContactForm() {
   };
 
   return (
-    <section id="contact" className="relative isolate bg-slate-50 px-6 py-12 lg:px-8 lg:py-16">
+    <section id="contact" className="scroll-mt-24 relative isolate bg-slate-50 px-6 py-12 lg:px-8 lg:py-16">
       <ParticleBackground />
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">

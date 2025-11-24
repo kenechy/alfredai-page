@@ -16,7 +16,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative isolate overflow-hidden bg-white min-h-screen flex items-center px-6 py-8 lg:px-8"
+      className="scroll-mt-24 relative isolate overflow-hidden bg-white min-h-screen flex items-center px-6 py-8 lg:px-8"
     >
       {/* Animated particle background */}
       <ParticleBackground />

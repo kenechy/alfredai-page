@@ -37,7 +37,7 @@ export function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="bg-white px-6 py-20 lg:px-8 lg:py-28"
+      className="scroll-mt-24 bg-white px-6 py-20 lg:px-8 lg:py-28"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
